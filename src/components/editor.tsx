@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PiTextAa } from "react-icons/pi";
 import { MdSend } from "react-icons/md";
 import Quill, { Delta, Op, type QuillOptions } from "quill";

@@ -53,9 +53,7 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
       if (image) {
         const url = await generateUploadUrl({}, { throwError: true });
 
-        if (!url) {
-          throw new Error("Url not found");
-        }
+        if (!url) throw new Error("Url not found");
 
         const result = await fetch(url, {
           method: "POST",
@@ -63,23 +61,13 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
           body: image,
         });
 
-        if (!result.ok) {
-          throw new Error("Failed to upload image");
-        }
+        if (!result.ok) throw new Error("Failed to upload image");
 
         const { storageId } = await result.json();
-
         values.image = storageId;
       }
 
-      await createMessage(
-        {
-          workspaceId,
-          channelId,
-          body,
-        },
-        { throwError: true }
-      );
+      await createMessage(values, { throwError: true });
 
       setEditorKey((prevKey) => prevKey + 1);
     } catch (error) {
