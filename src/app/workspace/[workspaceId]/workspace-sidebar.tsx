@@ -12,12 +12,14 @@ import { WorkspaceHeader } from "./workspace-header";
 import { SidebarItem } from "./sidebar-item";
 import { UseGetChannels } from "@/features/channels/api/use-get-channels";
 import { WorkspaceSection } from "./workspace-section";
-import { useGetMembers } from "@/features/members/api/use-get-member";
+import { useGetMembers } from "@/features/members/api/use-get-members";
 import { UserItem } from "./user-item";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 import { useChannelId } from "@/hooks/use-channel-id";
+import { useMemberId } from "@/hooks/use-member-id";
 
 export const WorkspaceSidebar = () => {
+  const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
 
@@ -40,7 +42,7 @@ export const WorkspaceSidebar = () => {
 
   if (workspaceLoading || memberLoading) {
     return (
-      <div className="flex flex-col bg-[#5E2C5F] h-full items-center justify-center">
+      <div className="flex flex-col bg-[#5F5A2C] h-full items-center justify-center">
         <Loader className="size-5 animate-spin text-white" />
       </div>
     );
@@ -48,7 +50,7 @@ export const WorkspaceSidebar = () => {
 
   if (!workspace || !member) {
     return (
-      <div className="flex flex-col gap-y-2 bg-[#5E2C5F] h-full items-center justify-center">
+      <div className="flex flex-col gap-y-2 bg-[#5F5A2C] h-full items-center justify-center">
         <AlertTriangle className="size-5  text-white" />
         <p className="text-white text-sm">Workspace not found</p>
       </div>
@@ -56,7 +58,7 @@ export const WorkspaceSidebar = () => {
   }
 
   return (
-    <div className="flex flex-col bg-[#5E2C5F] h-full">
+    <div className="flex flex-col bg-[#5F5A2C] h-full">
       <WorkspaceHeader
         workspace={workspace}
         isAdmin={member.role === "admin"}
@@ -91,6 +93,7 @@ export const WorkspaceSidebar = () => {
             id={item._id}
             label={item.user.name}
             image={item.user.image}
+            variant={item._id === memberId ? "active" : "default"}
           />
         ))}
       </WorkspaceSection>
