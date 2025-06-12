@@ -35,9 +35,14 @@ export const useJoin = () => {
         setStatus("pending");
 
         const res = await mutation(values);
+
+        setData(res); // ✅ This was missing
+        setStatus("success"); // ✅ Set success only if no error
         options?.onSuccess?.(res);
+
         return res;
       } catch (error) {
+        setError(error as Error);
         setStatus("error");
         options?.onError?.(error as Error);
         if (options?.throwError) {
@@ -61,3 +66,4 @@ export const useJoin = () => {
     isPending,
   };
 };
+

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
@@ -31,14 +32,8 @@ export const WorkspaceSidebar = () => {
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({
     id: workspaceId,
   });
-
-  const { data: channels, isLoading: channelsLoading } = UseGetChannels({
-    workspaceId,
-  });
-
-  const { data: members, isLoading: memberslsLoading } = useGetMembers({
-    workspaceId,
-  });
+  const { data: channels } = UseGetChannels({ workspaceId });
+  const { data: members } = useGetMembers({ workspaceId });
 
   if (workspaceLoading || memberLoading) {
     return (
@@ -51,22 +46,24 @@ export const WorkspaceSidebar = () => {
   if (!workspace || !member) {
     return (
       <div className="flex flex-col gap-y-2 bg-[#5F5A2C] h-full items-center justify-center">
-        <AlertTriangle className="size-5  text-white" />
+        <AlertTriangle className="size-5 text-white" />
         <p className="text-white text-sm">Workspace not found</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col bg-[#5F5A2C] h-full">
+    <div className="flex flex-col bg-[#5F5A2C] h-full overflow-y-auto scrollbar-thin scrollbar-thumb-[#403e1d]/70 scrollbar-track-transparent">
       <WorkspaceHeader
         workspace={workspace}
         isAdmin={member.role === "admin"}
       />
-      <div className="flex flex-col px-2 mt-3">
+
+      <div className="flex flex-col px-3 mt-3 space-y-2">
         <SidebarItem label="Threads" icon={MessageSquareText} id="threads" />
         <SidebarItem label="Drafts & Sent" icon={SendHorizontal} id="drafts" />
       </div>
+
       <WorkspaceSection
         label="Channels"
         hint="New channel"
@@ -82,6 +79,7 @@ export const WorkspaceSidebar = () => {
           />
         ))}
       </WorkspaceSection>
+
       <WorkspaceSection
         label="Direct Messages"
         hint="New direct message"

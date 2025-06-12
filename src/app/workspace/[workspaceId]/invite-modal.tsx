@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useNewJoinCode } from "@/features/workspaces/api/use-new-join-code";
 import {
@@ -10,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { CopyIcon, RefreshCcw } from "lucide-react";
-import { toast } from "sonner";
 import { useConfirm } from "@/hooks/use-confirm";
 
 interface InviteModalProps {
