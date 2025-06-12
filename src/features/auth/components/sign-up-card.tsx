@@ -36,7 +36,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
       setError("Passwords do not match");
     }
     setPending(true);
-    signIn("password", { email, password, flow: "signUp" })
+    signIn("password", { email, password, name, flow: "signUp" })
       .catch(() => {
         setError("Something went wrong");
       })

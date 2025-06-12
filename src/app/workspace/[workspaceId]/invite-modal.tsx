@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useNewJoinCode } from "@/features/workspaces/api/use-new-join-code";

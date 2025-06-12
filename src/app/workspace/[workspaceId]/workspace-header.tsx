@@ -12,6 +12,7 @@ import { Hint } from "@/components/hint";
 import { PreferencesModal } from "./preferences-modal";
 import { useState } from "react";
 import { InviteModal } from "./invite-modal";
+import { JoinWorkspaceModal } from "./join-workspace-modal";
 
 interface WorkspaceHeaderProps {
   workspace: Doc<"workspaces">;
@@ -24,6 +25,7 @@ export const WorkspaceHeader = ({
 }: WorkspaceHeaderProps) => {
   const [preferencesOpen, setPreferencesOpen] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
+  const [joinModalOpen, setJoinModalOpen] = useState(false);
 
   return (
     <>
@@ -38,6 +40,8 @@ export const WorkspaceHeader = ({
         setOpen={setPreferencesOpen}
         initialValue={workspace.name}
       />
+      <JoinWorkspaceModal open={joinModalOpen} setOpen={setJoinModalOpen} />
+
       <div className="flex items-center justify-between px-4 h-[49px] gap-0.5">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -77,6 +81,13 @@ export const WorkspaceHeader = ({
                   onClick={() => setPreferencesOpen(true)}
                 >
                   Preferences
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer py-2"
+                  onClick={() => setJoinModalOpen(true)}
+                >
+                  Join another workspace
                 </DropdownMenuItem>
               </>
             )}

@@ -6,9 +6,9 @@ const schema = defineSchema({
   ...authTables,
   workspaces: defineTable({
     name: v.string(),
-    userId: v.id("users"),
     joinCode: v.string(),
-  }),
+    userId: v.id("users"),
+  }).index("by_joinCode", ["joinCode"]),
   members: defineTable({
     userId: v.id("users"),
     workspaceId: v.id("workspaces"),

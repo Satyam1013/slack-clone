@@ -20,7 +20,7 @@ export const UserButton = () => {
   if (!data) return null;
 
   const { image, name } = data;
-  const avatarFallback = name!.charAt(0).toUpperCase();
+  const avatarFallback = name?.charAt(0).toUpperCase();
 
   return (
     <div className="relative z-50">

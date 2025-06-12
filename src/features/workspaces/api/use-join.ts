@@ -3,7 +3,7 @@ import { api } from "../../../../convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";
 
-type RequestType = { workspaceId: Id<"workspaces">; joinCode: string };
+type RequestType = { joinCode: string };
 type ResponseType = Id<"workspaces"> | null;
 
 type Options = {

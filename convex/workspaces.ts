@@ -15,7 +15,6 @@ const generateCode = () => {
 export const join = mutation({
   args: {
     joinCode: v.string(),
-    workspaceId: v.id("workspaces"),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -24,20 +23,21 @@ export const join = mutation({
       throw new Error("Unauthorized");
     }
 
-    const workspace = await ctx.db.get(args.workspaceId);
+    const workspace = await ctx.db
+      .query("workspaces")
+      .withIndex("by_joinCode", (q) =>
+        q.eq("joinCode", args.joinCode.toLowerCase())
+      )
+      .unique();
 
     if (!workspace) {
       throw new Error("Workspace not found");
     }
 
-    if (workspace.joinCode !== args.joinCode.toLowerCase()) {
-      throw new Error("Invalid join code");
-    }
-
     const existingMember = await ctx.db
       .query("members")
       .withIndex("by_workspace_id_user_id", (q) =>
-        q.eq("workspaceId", args.workspaceId).eq("userId", userId)
+        q.eq("workspaceId", workspace._id).eq("userId", userId)
       )
       .unique();
 
@@ -54,6 +54,7 @@ export const join = mutation({
     return workspace._id;
   },
 });
+
 
 export const newJoinCode = mutation({
   args: {
