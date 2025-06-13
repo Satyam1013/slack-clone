@@ -18,11 +18,14 @@ import { UserItem } from "./user-item";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 import { useChannelId } from "@/hooks/use-channel-id";
 import { useMemberId } from "@/hooks/use-member-id";
+import { useOnlineUsers } from "@/features/presence/api/use-get-online-members";
 
 export const WorkspaceSidebar = () => {
   const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
+
+  const { onlineUserIds } = useOnlineUsers();
 
   const [_open, setOpen] = useCreateChannelModal();
 
@@ -91,6 +94,7 @@ export const WorkspaceSidebar = () => {
             id={item._id}
             label={item.user.name}
             image={item.user.image}
+            isOnline={onlineUserIds.includes(item.user._id)} // 👈 check if user is online
             variant={item._id === memberId ? "active" : "default"}
           />
         ))}

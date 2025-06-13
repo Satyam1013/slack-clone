@@ -26,6 +26,7 @@ interface UserItemProps {
   label?: string;
   image?: string;
   variant?: VariantProps<typeof userItemVariants>["variant"];
+  isOnline?: boolean;
 }
 
 export const UserItem = ({
@@ -33,6 +34,7 @@ export const UserItem = ({
   label = "Member",
   image,
   variant,
+  isOnline = false,
 }: UserItemProps) => {
   const workspaceId = useWorkspaceId();
   const avatarFallBack = label.charAt(0).toUpperCase();
@@ -40,16 +42,19 @@ export const UserItem = ({
   return (
     <Button
       variant={"transparent"}
-      className={cn(userItemVariants({ variant: variant }))}
+      className={cn(userItemVariants({ variant }))}
       size={"sm"}
       asChild
     >
       <Link href={`/workspace/${workspaceId}/member/${id}`}>
-        <Avatar className="size-5 rounded-md mr-1">
+        <Avatar className="size-5 rounded-md mr-1 relative">
           <AvatarImage className="rounded-md" src={image} />
           <AvatarFallback className="rounded-md bg-sky-500 text-white text-xs">
             {avatarFallBack}
           </AvatarFallback>
+          {isOnline && (
+            <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-green-500 border border-white" />
+          )}
         </Avatar>
         <span className="text-sm truncate">{label}</span>
       </Link>

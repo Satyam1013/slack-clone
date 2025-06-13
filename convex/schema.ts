@@ -55,6 +55,12 @@ const schema = defineSchema({
     .index("by_workspace_id", ["workspaceId"])
     .index("by_message_id", ["messageId"])
     .index("by_member_id", ["memberId"]),
+  presence: defineTable({
+    userId: v.id("users"),
+    lastSeen: v.number(),
+  })
+    .index("by_user_id", ["userId"])
+    .index("by_lastSeen", ["lastSeen"]),
 });
 
 export default schema;

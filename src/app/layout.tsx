@@ -6,6 +6,7 @@ import { ConvexClientProvider } from "@/components/convex-client-provider";
 import { Modals } from "@/components/modals";
 import { Toaster } from "@/components/ui/sonner";
 import { JotaiProvider } from "@/components/jotai-provider";
+import { PresenceManager } from "@/features/presence/components/presence-manager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
         >
           <ConvexClientProvider>
             <JotaiProvider>
+              <PresenceManager />
               <Toaster />
               <Modals />
               {children}
