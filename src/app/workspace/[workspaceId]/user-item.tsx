@@ -47,15 +47,19 @@ export const UserItem = ({
       asChild
     >
       <Link href={`/workspace/${workspaceId}/member/${id}`}>
-        <Avatar className="size-5 rounded-md mr-1 relative">
+        <Avatar className="size-5 rounded-md mr-1 relative overflow-visible">
           <AvatarImage className="rounded-md" src={image} />
           <AvatarFallback className="rounded-md bg-sky-500 text-white text-xs">
             {avatarFallBack}
           </AvatarFallback>
           {isOnline && (
-            <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-green-500 border border-white" />
+            <span
+              className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-green-500 border-2 border-white"
+              title="Online"
+            />
           )}
         </Avatar>
+
         <span className="text-sm truncate">{label}</span>
       </Link>
     </Button>

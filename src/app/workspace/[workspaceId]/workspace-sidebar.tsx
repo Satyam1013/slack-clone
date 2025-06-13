@@ -94,7 +94,7 @@ export const WorkspaceSidebar = () => {
             id={item._id}
             label={item.user.name}
             image={item.user.image}
-            isOnline={onlineUserIds.includes(item.user._id)} // 👈 check if user is online
+            isOnline={onlineUserIds.includes(item.user._id)}
             variant={item._id === memberId ? "active" : "default"}
           />
         ))}

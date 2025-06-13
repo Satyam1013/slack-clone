@@ -1,7 +1,7 @@
+import { useEffect } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useCurrentUser } from "@/features/auth/api/use-current-user";
-import { useEffect } from "react";
 
 export function usePresence() {
   const { data } = useCurrentUser();
@@ -10,10 +10,25 @@ export function usePresence() {
   useEffect(() => {
     if (!data) return;
 
-    const interval = setInterval(() => {
-      updatePresence({ userId: data._id });
-    }, 5000); // every 5 seconds
+    let interval: NodeJS.Timeout | null = null;
 
-    return () => clearInterval(interval);
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible" && navigator.onLine) {
+        updatePresence({ userId: data._id });
+        interval = setInterval(() => {
+          updatePresence({ userId: data._id });
+        }, 15000);
+      } else if (interval) {
+        clearInterval(interval);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    handleVisibilityChange();
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (interval) clearInterval(interval);
+    };
   }, [updatePresence, data]);
 }
